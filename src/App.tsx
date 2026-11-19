@@ -19,7 +19,10 @@ export default function App() {
   const [series, setSeries] = useState<Media[]>([]);
   const [bookmarks, setBookmarks] = useState<Media[]>([]);
   const [search, setSearch] = useState("");
+  const [loading, setisLoading] = useState(true);
+
   async function fetchMovies(endpoint: string) {
+    setisLoading(true);
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -29,7 +32,7 @@ export default function App() {
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }
-
+    setisLoading(false);
     return response.json();
   }
   useEffect(() => {
@@ -130,6 +133,7 @@ export default function App() {
             bookmarks,
             toggleBookmark,
             search,
+            loading,
           }}
         />
       </section>
